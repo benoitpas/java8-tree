@@ -1,6 +1,7 @@
 package org.benoit;
 
 import java.util.AbstractMap;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -30,6 +31,21 @@ final public class Node<T> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node<?> node = (Node<?>) o;
+        return Objects.equals(value, node.value) &&
+                Objects.equals(left, node.left) &&
+                Objects.equals(right, node.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, left, right);
+    }
+
+    @Override
     public String toString() {
         StringJoiner sj = new StringJoiner(",","(",")");
         sj.add(value.toString());
@@ -40,7 +56,7 @@ final public class Node<T> {
         return sj.toString();
     }
 
-    Node<AbstractMap.SimpleEntry<Integer,T>> addId(Integer start) {
+    private Node<AbstractMap.SimpleEntry<Integer,T>> addId(Integer start) {
         Optional<Node<AbstractMap.SimpleEntry<Integer,T>>> newLeft = left.map((n) -> n.addId(start));
         Integer leftIndex = newLeft.map((n) -> n.value.getKey() + 1).orElse(start);
         Optional<Node<AbstractMap.SimpleEntry<Integer,T>>> newRight = right.map((n) -> n.addId(leftIndex));
