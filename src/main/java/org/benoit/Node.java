@@ -61,7 +61,7 @@ final public class Node<T> {
         Integer leftIndex = newLeft.map((n) -> n.value.getKey() + 1).orElse(start);
         Optional<Node<AbstractMap.SimpleEntry<Integer,T>>> newRight = right.map((n) -> n.addId(leftIndex));
         Integer rightIndex = newRight.map((n) -> n.value.getKey() + 1).orElse(leftIndex);
-        return new Node<AbstractMap.SimpleEntry<Integer,T>>(
+        return new Node<>(
                 new AbstractMap.SimpleEntry<>(rightIndex, value),
                 newLeft,
                 newRight);
